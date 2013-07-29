@@ -41,9 +41,12 @@ end
 # Use Capistrano for deployment
 # gem 'capistrano', group: :development
 
-# Use debugger
-# gem 'debugger', group: [:development, :test]
-
 gem 'rspec-rails'
 gem 'devise'
+
+gem 'omniauth-foursquare'
+
+gem 'awesome_print', group: [:development, :test]
+gem 'better_errors', group: [:development, :test]
+gem 'pry-rails', group: [:development, :test]
 
