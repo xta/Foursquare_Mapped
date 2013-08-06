@@ -1,9 +1,8 @@
 class User < ActiveRecord::Base
-  # Include default devise modules. Others available are:
-  # :token_authenticatable, :confirmable,
-  # :lockable, :timeoutable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
+
+  has_many :checkins
 
 	def self.from_omniauth(auth)
 	  if where(auth.slice(:provider, :uid)).any?

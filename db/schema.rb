@@ -11,10 +11,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130729050507) do
+ActiveRecord::Schema.define(version: 20130806030037) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "checkins", force: true do |t|
+    t.integer  "created"
+    t.string   "type"
+    t.string   "timezoneoffset"
+    t.string   "venue_id"
+    t.string   "venue_name"
+    t.string   "venue_location_address"
+    t.string   "venue_location_city"
+    t.string   "venue_location_state"
+    t.string   "venue_location_crossStreet"
+    t.string   "venue_location_postalCode"
+    t.string   "venue_location_country"
+    t.string   "venue_location_cc"
+    t.string   "venue_location_lat"
+    t.string   "venue_location_lng"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
