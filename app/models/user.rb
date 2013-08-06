@@ -26,4 +26,16 @@ class User < ActiveRecord::Base
 	  super && provider.blank?
 	end
 
+	def sorted_checkins
+		checkins.sort_by &:created
+	end
+
+	def load_all_checkins!
+		client 		= Api::Foursquare.new(token)
+		checkins 	= client.load_all_checkins
+		user_id		= self.id
+
+		checkins.each { |checkin| Checkin.create_from_api(checkin, user_id) }
+	end
+
 end

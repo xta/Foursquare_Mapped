@@ -3,7 +3,8 @@ class CreateCheckinsTable < ActiveRecord::Migration
     create_table :checkins do |t|
 
 			t.integer :created
-			t.string :type
+			t.string :ci_id
+			t.string :ci_type
 			t.string :timezoneoffset
 
 			t.string :venue_id

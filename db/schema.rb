@@ -18,7 +18,8 @@ ActiveRecord::Schema.define(version: 20130806030037) do
 
   create_table "checkins", force: true do |t|
     t.integer  "created"
-    t.string   "type"
+    t.string   "ci_id"
+    t.string   "ci_type"
     t.string   "timezoneoffset"
     t.string   "venue_id"
     t.string   "venue_name"

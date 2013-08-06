@@ -1,0 +1,1 @@
+require Rails.root.join('lib', 'foursquare_wrapper', 'foursquare_wrapper.rb').to_s

@@ -8,6 +8,8 @@ FoursquareMapped::Application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'pages#index'
 
+  get :load_all_checkins, to: 'pages#load_all_checkins', as: 'load_all_checkins'
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

@@ -1,1 +1,11 @@
-Pages#Index
+<h3>Pages#Index</h3>
+
+<% if current_user && current_user.checkins.any? %>
+	<ol>
+	<% current_user.sorted_checkins.each do |ci| %>
+		<li><%= ci.name %></li>
+	<% end %>
+	</ol>
+<% else %>
+	<p><%= link_to 'Click here to load all your foursquare checkins. May take a few minutes.', load_all_checkins_path %></p>
+<% end %>
