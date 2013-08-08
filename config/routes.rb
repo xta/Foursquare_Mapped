@@ -9,6 +9,7 @@ FoursquareMapped::Application.routes.draw do
   root 'pages#index'
 
   get :load_all_checkins, to: 'pages#load_all_checkins', as: 'load_all_checkins'
+  get 'show/:id', to: 'pages#show', as: 'show'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
