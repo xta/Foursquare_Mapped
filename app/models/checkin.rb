@@ -37,4 +37,12 @@ class Checkin < ActiveRecord::Base
     end
 	end
 
+  def rounded_lat
+    venue_location_lat.to_f.round(3)
+  end
+
+  def rounded_lng
+    venue_location_lng.to_f.round(3)
+  end
+
 end
