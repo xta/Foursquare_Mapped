@@ -9,18 +9,21 @@ Rails 4.1 + PostgreSQL sample app for getting all your Foursquare check ins. Not
     bundle
 
     # create foursquare developer account at https://developer.foursquare.com/
-
+    
     # create a new foursquare app at https://foursquare.com/developers/register
 ![App Registration Page](/../master/public/dev_4sq_register_app.png?raw=true)
 
 `Your app name` can be anything.
+
 `Download / welcome page url` is `http://localhost:3000`
+
 `Your privacy policy url` is `http://localhost:3000/privacy`
+
 `Redirect URI(s)` is `http://localhost:3000/users/auth/foursquare/callback`
 
 Click `Save Changes`
 
-You will be presented with your new app's page. Make note of `Client id` and `Client secret`
+You will be presented with your new app's page. Make note of `Client id` and `Client secret`.
 
     cp config/secrets.yml.example config/secrets.yml
     # update config/secrets.yml file with your foursquare keys (Client id and Client secret)
