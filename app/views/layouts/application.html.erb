@@ -1,24 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FoursquareMapped</title>
   <%= stylesheet_link_tag    "application", media: "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <header>
+    <%= render 'layouts/navigation' %>
+  </header>
+  <main role="main">
+     <%= render 'layouts/messages' %>
 
-<% if user_signed_in? %>
-  Logged in as <strong><%= current_user.email %></strong>.
-  <%= link_to "Logout", destroy_user_session_path, method: :delete %>
-<% else %>
-  <%= link_to "Sign in with Foursquare", user_omniauth_authorize_path(:foursquare) %>
-<% end %>
-
-<p class="notice"><%= notice %></p>
-<p class="alert"><%= alert %></p>
-
-<%= yield %>
-
+     <div class="container">
+        <%= yield %>
+      </div>
+  </main>
+  <div class="container">
+    <footer>
+      <br><p><%= link_to 'Privacy', privacy_path %></p>
+    </footer>
+  </div>
 </body>
 </html>

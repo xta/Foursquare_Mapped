@@ -1,11 +1,18 @@
-<h3>Pages#Index</h3>
-
 <% if current_user && current_user.checkins.any? %>
+  <h3>Your checkins</h3>
+
 	<ol>
 	<% current_user.sorted_checkins.each do |ci| %>
 		<li><%= link_to ci.name, show_path(ci) %></li>
 	<% end %>
 	</ol>
 <% elsif current_user %>
+  <h3>No checkins loaded</h3>
+
 	<p><%= link_to 'Click here to load all your foursquare checkins. May take a few minutes.', load_all_checkins_path %></p>
+<% else %>
+  <h1>Welcome</h1>
+
+  <p>Rails sample app for getting all your Foursquare check ins. Note: this app is only intended for local usage & NOT production env.</p>
+  <p><%= link_to "Please login with Foursquare to continue.", user_omniauth_authorize_path(:foursquare), class: 'btn btn-primary btn-lg' %></p>
 <% end %>
