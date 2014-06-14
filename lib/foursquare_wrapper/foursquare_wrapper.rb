@@ -37,6 +37,7 @@ module Api
 		private
 
 		  def user_checkins(options={})
+		  	options.merge!(v: 20140614)
 		    @client.user_checkins(options).items
 		  end
 
