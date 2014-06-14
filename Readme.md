@@ -9,7 +9,7 @@ Rails 4.1 + PostgreSQL sample app for getting all your Foursquare check ins. Not
     bundle
 
     # create foursquare developer account at https://developer.foursquare.com/
-    
+
     # create a new foursquare app at https://foursquare.com/developers/register
 ![App Registration Page](/../master/public/dev_4sq_register_app.png?raw=true)
 
@@ -37,3 +37,7 @@ You will be presented with your new app's page. Make note of `Client id` and `Cl
 
 #### Run all tests
     rspec
+
+## License
+
+Foursquare Mapped is released under the [MIT License](http://opensource.org/licenses/MIT).
