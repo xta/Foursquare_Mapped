@@ -1,17 +1,24 @@
 # Foursquare Mapped
 
-## Installation
+Rails 4.1 + PostgreSQL sample app for getting all your Foursquare check ins. Note: this app is only intended for local usage & NOT production env.
 
-#### Development
-	# create foursquare developer account at https://developer.foursquare.com/
-	# setup config/initializers/00_secret_keys.rb with foursquare keys
-	# setup /config/database.yml
-	rake db:create
-	rake db:schema:load
+## Setup Locally
+
+    git clone git@github.com:xta/Foursquare_Mapped.git
+    cd Foursquare_Mapped/
+    bundle
+
+    # create foursquare developer account at https://developer.foursquare.com/
+
+    cp config/secrets.yml.example config/secrets.yml
+    # update config/secrets.yml file with your foursquare keys
+
+    rake db:create db:schema:load
+    rake db:schema:load RAILS_ENV=test
+
+#### Usage Locally
     rails s
-    visit at http://localhost:3000/
+    open http://localhost:3000/
 
-#### Test
-    rspec # run all tests
-
-
+#### Run all tests
+    rspec
