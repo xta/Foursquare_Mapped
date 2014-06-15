@@ -2,7 +2,7 @@
   <h1>Your checkins</h1>
 
   <% @checkins.each do |ci| %>
-    <p><%= ci.id %>. <%= link_to ci.name, show_path(ci) %></p>
+    <p><%= ci.id %>. <%= link_to ci.name, show_path(ci) %> - <%= checkin_date(ci) %></p>
   <% end %>
 
   <%= paginate @checkins %>
