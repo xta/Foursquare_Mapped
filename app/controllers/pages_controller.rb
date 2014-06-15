@@ -1,6 +1,7 @@
 class PagesController < ApplicationController
 
   def index
+    @checkins = Kaminari.paginate_array(current_user.sorted_checkins).page(params[:page]).per(50)
   end
 
   def show

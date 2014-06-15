@@ -1,11 +1,11 @@
 <% if current_user && current_user.checkins.any? %>
   <h1>Your checkins</h1>
 
-  <ol>
-  <% current_user.sorted_checkins.each do |ci| %>
-    <li><%= link_to ci.name, show_path(ci) %></li>
+  <% @checkins.each do |ci| %>
+    <p><%= ci.id %>. <%= link_to ci.name, show_path(ci) %></p>
   <% end %>
-  </ol>
+
+  <%= paginate @checkins %>
 
 <% elsif current_user %>
   <h1>No checkins loaded</h1>

@@ -26,6 +26,9 @@ gem 'foursquare2'
 # Background Jobs
 gem 'sucker_punch', '~> 1.0'
 
+# Pagination
+gem 'kaminari'
+
 # Dev
 group :test do
   gem 'minitest'
