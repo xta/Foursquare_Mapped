@@ -11,7 +11,7 @@ class Checkin < ActiveRecord::Base
 		begin
       new_ci 								= self.new
       new_ci.user_id 				= user_id
-      
+
       new_ci.ci_id 					= checkin.id
       new_ci.created 				= checkin.createdAt
       new_ci.ci_type 				= checkin.type
@@ -30,6 +30,7 @@ class Checkin < ActiveRecord::Base
       new_ci.venue_location_lat 				= checkin.venue.location.lat
       new_ci.venue_location_lng 				= checkin.venue.location.lng
 
+      new_ci.raw_json = checkin
       new_ci.save
 
     rescue Exception => e
