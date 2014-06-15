@@ -23,6 +23,9 @@ gem 'devise'
 gem 'omniauth-foursquare'
 gem 'foursquare2'
 
+# Background Jobs
+gem 'sucker_punch', '~> 1.0'
+
 # Dev
 group :test do
   gem 'minitest'
