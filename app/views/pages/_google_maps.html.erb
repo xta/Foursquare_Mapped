@@ -1,0 +1,37 @@
+<script>
+  var map;
+  var myLatlng = new google.maps.LatLng(<%= @checkin.venue_location_lat %>, <%= @checkin.venue_location_lng %>);
+
+  function initialize() {
+
+    var mapOptions = {
+      zoom: 18,
+      center: myLatlng,
+      disableDefaultUI: true,
+      scrollwheel: false,
+      draggable: false,
+      mapTypeControlOptions: {
+        mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'custom_style']
+      },
+      mapTypeId: 'custom_style'
+    };
+
+    map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+    var styledMapOptions = {
+      name: 'Custom Style'
+    };
+
+    var customMapType = new google.maps.StyledMapType([], styledMapOptions);
+
+    var myLatLng = new google.maps.LatLng(<%= @checkin.venue_location_lat %>, <%= @checkin.venue_location_lng %>);
+    var beachMarker = new google.maps.Marker({
+      position: myLatLng,
+      map: map,
+    });
+
+    map.mapTypes.set('custom_style', customMapType);
+  }
+
+  google.maps.event.addDomListener(window, 'load', initialize);
+</script>
