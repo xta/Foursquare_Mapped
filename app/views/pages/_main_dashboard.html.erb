@@ -1,0 +1,23 @@
+<% if current_user.checkins.any? %>
+
+  <h3>Get latest checkins</h3>
+
+  <p>
+    <%= link_to "Get your latest foursquare checkins (if any). May take a few minutes.", sync_checkins_path, class: 'btn btn-primary', id: 'load_checkins' %>
+  </p>
+
+  <h1>Your checkins (<%= @checkins_total %>)</h1>
+
+  <% @checkins.each do |ci| %>
+    <p><%= ci.id %>. <%= link_to ci.name, show_path(ci) %> - <%= checkin_date(ci) %></p>
+  <% end %>
+
+  <%= paginate @checkins %>
+
+<% else %>
+
+  <h1>No checkins loaded</h1>
+
+  <p><%= link_to "Click here to load all your foursquare checkins. May take a few minutes.", load_all_checkins_path, class: 'btn btn-primary btn-lg', id: 'load_checkins' %></p>
+
+<% end %>

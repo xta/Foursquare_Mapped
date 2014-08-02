@@ -31,11 +31,26 @@ class User < ActiveRecord::Base
 	end
 
 	def load_all_checkins!
-		client 		= Api::Foursquare.new(token)
-		checkins 	= client.load_all_checkins
+		checkins 	= api_client.load_all_checkins
 		user_id		= self.id
 
 		checkins.each { |checkin| Checkin.create_from_api(checkin, user_id) }
+	end
+
+	def load_any_new_checkins!
+		checkins 	= api_client.load_any_new_checkins
+		user_id		= self.id
+
+		checkins.each do |checkin|
+			next if checkin.persisted?
+			Checkin.create_from_api(checkin, user_id)
+		end
+	end
+
+	private
+
+	def api_client
+		Api::Foursquare.new(token, id)
 	end
 
 end

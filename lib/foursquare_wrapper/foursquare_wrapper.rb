@@ -5,9 +5,9 @@ module Api
 
 		attr_accessor :client, :all_checkins
 
-		def initialize(token)
+		def initialize(token, user_id = nil)
 			@client = Foursquare2::Client.new(:oauth_token => token)
-			@all_checkins = []
+			@all_checkins = user_id ? User.find(user_id).checkins.order("id ASC").to_a : []
 		end
 
 		def first_checkin
@@ -27,7 +27,10 @@ module Api
 	    latest_ci_id = latest_checkin.id
 
 	    until @all_checkins.detect { |ci| ci.id == latest_ci_id }
-	      additional_checkins = user_checkins( :limit => 250, :sort => "oldestfirst", :afterTimestamp => @all_checkins.last.createdAt )
+	    	last_checkin = @all_checkins.last
+				last_created_at = last_checkin.respond_to?(:createdAt) ? last_checkin.createdAt : last_checkin.created
+
+	      additional_checkins = user_checkins( :limit => 250, :sort => "oldestfirst", :afterTimestamp => last_created_at )
 	      additional_checkins.each { |c| @all_checkins.push(c) unless @all_checkins.include?(c) }
 	    end
 
