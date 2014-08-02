@@ -36,7 +36,7 @@ You will be presented with your new app's page. Make note of `Client id` and `Cl
     open http://localhost:3000/
 
 #### Run all tests
-    rspec
+    rake
 
 ## License
 
