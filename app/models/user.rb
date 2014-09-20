@@ -27,7 +27,7 @@ class User < ActiveRecord::Base
 	end
 
 	def sorted_checkins
-		checkins.sort_by &:created
+		checkins.sort_by(&:created).reverse
 	end
 
 	def load_all_checkins!
