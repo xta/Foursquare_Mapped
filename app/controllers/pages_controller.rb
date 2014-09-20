@@ -2,7 +2,7 @@ class PagesController < ApplicationController
 
   def index
     @checkins = Kaminari.paginate_array(current_user.sorted_checkins).page(params[:page]).per(50) if current_user
-    @checkins_total = current_user.checkins.size
+    @checkins_total = current_user.checkins.size if current_user
   end
 
   def show
