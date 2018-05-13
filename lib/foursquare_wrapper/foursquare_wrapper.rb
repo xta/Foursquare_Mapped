@@ -1,48 +1,77 @@
 require 'foursquare2'
 
 module Api
-	class Foursquare
+    class Foursquare
 
-		attr_accessor :client, :all_checkins
+        attr_accessor :client, :all_checkins
 
-		def initialize(token, user_id = nil)
-			@client = Foursquare2::Client.new(:oauth_token => token)
-			@all_checkins = user_id ? User.find(user_id).checkins.order("id ASC").to_a : []
-		end
+        def initialize(token, user_id = nil)
+            @client = Foursquare2::Client.new(:oauth_token => token)
+            @all_checkins = user_id ? User.find(user_id).checkins.order("created ASC").to_a : []
+            @user_id = user_id
+        end
 
-		def first_checkin
-	    user_checkins(:limit => 1, :sort => 'oldestfirst').first
-	  end
+        def latest_checkin
+            user_checkins(:limit => 1).first
+        end
 
-	  def latest_checkin
-	    user_checkins(:limit => 1, :sort => 'newestfirst').first
-	  end
+        def load_all_checkins
+            @all_checkins.concat( user_checkins(:limit => 250, :sort => "newestfirst") )
 
-	  def load_all_checkins
-	    @all_checkins.concat( user_checkins(:limit => 250, :sort => "oldestfirst") )
-	    load_any_new_checkins
-	  end
+            complete = false
 
-	  def load_any_new_checkins
-	    latest_ci_id = latest_checkin.id
+            while !complete
+                oldest_checkin = @all_checkins.last
+                oldest_created = oldest_checkin.respond_to?(:createdAt) ? oldest_checkin.createdAt : oldest_checkin.created
 
-	    until @all_checkins.detect { |ci| ci.id == latest_ci_id }
-	    	last_checkin = @all_checkins.last
-				last_created_at = last_checkin.respond_to?(:createdAt) ? last_checkin.createdAt : last_checkin.created
+                older_checkins = user_checkins(:limit => 250, :sort => "newestfirst", beforeTimestamp: oldest_created)
+                @all_checkins.concat( older_checkins )
 
-	      additional_checkins = user_checkins( :limit => 250, :sort => "oldestfirst", :afterTimestamp => last_created_at )
-	      additional_checkins.each { |c| @all_checkins.push(c) unless @all_checkins.include?(c) }
-	    end
+                older_count = older_checkins.count
+                complete = true if older_count <= 0
+            end
 
-	    return @all_checkins
-	  end
+            @all_checkins.reverse
+        end
 
-		private
+        def load_any_new_checkins
+            newest_known = @all_checkins.last
+            newest_created = newest_known.created
 
-		  def user_checkins(options={})
-		  	options.merge!(v: 20140614)
-		    @client.user_checkins(options).items
-		  end
+            complete = false
+            new_recorded_ids = {}
+
+            while !complete
+                newer_checkins = user_checkins(:limit => 250, :sort => "newestfirst", afterTimestamp: newest_created)
+                any_new_ones = false
+
+                newer_checkins.each do |ci|
+                    checkin_is_new = Checkin.where(user_id: @user_id, ci_id: ci.ci_id).empty?
+                    checkin_is_known = new_recorded_ids[ci.id]
+
+                    next if checkin_is_known
+                    any_new_ones = true if checkin_is_new
+
+                    new_recorded_ids[ci.id] = true
+                    @all_checkins.push(ci)
+                end
+
+                if !any_new_ones
+                    complete = true
+                else
+                    newest_created = newer_checkins.first.createdAt
+                end
+            end
+
+            @all_checkins
+        end
+
+        private
+
+            def user_checkins(options={})
+                options.merge!(v: 20140614)
+                @client.user_checkins(options).items
+            end
 
   end
 end

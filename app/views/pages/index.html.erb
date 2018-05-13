@@ -6,5 +6,5 @@
   <h1>Welcome</h1>
 
   <p>Rails sample app for getting all your Foursquare check ins. Note: this app is only intended for local usage & NOT production env.</p>
-  <p><%= link_to "Please login with Foursquare to continue.", user_omniauth_authorize_path(:foursquare), class: 'btn btn-primary btn-lg' %></p>
+  <p><%= link_to "Please login with Foursquare to continue.", user_foursquare_omniauth_authorize_path, class: 'btn btn-primary btn-lg' %></p>
 <% end %>

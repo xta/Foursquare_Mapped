@@ -1,17 +1,17 @@
 source 'https://rubygems.org'
-ruby '2.1.1'
+ruby '2.3.6'
 
 # Rails
-gem 'rails', '4.1.4'
-gem 'sass-rails', '~> 4.0.0' # Use SCSS for stylesheets
-gem 'uglifier', '>= 1.3.0' # Use Uglifier as compressor for JavaScript assets
-gem 'coffee-rails', '~> 4.0.0' # Use CoffeeScript for .js.coffee assets and views
+gem 'rails', '~> 4.2'
+gem 'sass-rails' # Use SCSS for stylesheets
+gem 'uglifier' # Use Uglifier as compressor for JavaScript assets
+gem 'coffee-rails' # Use CoffeeScript for .js.coffee assets and views
 gem 'jquery-rails' # Use jquery as the JavaScript library
-gem 'jbuilder', '~> 1.2' # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
+gem 'jbuilder' # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'bootstrap-sass'
 
 # Database
-gem 'pg'
+gem 'pg', '~> 0.21.0'
 
 # Server
 gem 'unicorn'
@@ -39,6 +39,5 @@ group :development, :test do
 	gem 'awesome_print'
 	gem 'better_errors'
 	gem 'pry-rails'
+    gem 'byebug'
 end
-
-
