@@ -11,6 +11,10 @@ require "sprockets/railtie"
 # you've limited to :test, :development, or :production.
 Bundler.require(:default, Rails.env)
 
+if Rails.env.development?
+    OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+end
+
 module FoursquareMapped
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
