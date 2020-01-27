@@ -1,6 +1,8 @@
 # Foursquare Mapped
 
-Rails 4.2 + PostgreSQL sample app for getting all your Foursquare check ins. Note: this app is only intended for local usage & NOT production env.
+Rails 4.2 + PostgreSQL sample app for getting all your Foursquare check ins.
+
+***Warning: this app is not secure and NOT for production usage. Use at your own risk.***
 
 ## Setup Locally
 
