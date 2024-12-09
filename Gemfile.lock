@@ -90,7 +90,7 @@ GEM
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.12.2)
       faraday (>= 0.7.4, < 1.0)
-    ffi (1.9.23)
+    ffi (1.15.5)
     foursquare2 (2.0.2)
       faraday (~> 0.8)
       faraday_middleware (>= 0.8)
@@ -276,7 +276,7 @@ DEPENDENCIES
   unicorn
 
 RUBY VERSION
-   ruby 2.3.6p384
+   ruby 2.4.6p354
 
 BUNDLED WITH
-   1.16.1
+   1.17.3
