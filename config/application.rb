@@ -1,32 +1,29 @@
-require File.expand_path('../boot', __FILE__)
+require_relative 'boot'
 
 # Pick the frameworks you want:
-require "active_record/railtie"
-require "action_controller/railtie"
-require "action_mailer/railtie"
-require "sprockets/railtie"
+require 'active_record/railtie'
+require 'action_controller/railtie'
+require 'action_mailer/railtie'
+require 'action_view/railtie'
+require 'sprockets/railtie'
 # require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(:default, Rails.env)
 
-if Rails.env.development?
-    OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
-end
-
 module FoursquareMapped
   class Application < Rails::Application
-    # Settings in config/environments/* take precedence over those specified here.
-    # Application configuration should go into files in config/initializers
-    # -- all .rb files in that directory are automatically loaded.
+    config.load_defaults 8.0
 
-    # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
-    # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
-    # config.time_zone = 'Central Time (US & Canada)'
+    # Foursquare client id/secret and secret_key_base live in config/secrets.yml
+    # (gitignored). Rails.application.secrets was removed in Rails 7.2, so the
+    # same file is now read through config_for.
+    config.foursquare = config_for(:secrets)
+    config.secret_key_base = config.foursquare[:secret_key_base] if config.foursquare[:secret_key_base]
 
-    # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-    # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
-    # config.i18n.default_locale = :de
+    # lib/ holds the Foursquare API wrapper and the OmniAuth strategy, both of
+    # which are required explicitly rather than autoloaded.
+    config.autoload_lib(ignore: %w[assets tasks omniauth foursquare_wrapper])
   end
 end

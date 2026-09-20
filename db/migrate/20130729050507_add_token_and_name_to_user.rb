@@ -1,4 +1,4 @@
-class AddTokenAndNameToUser < ActiveRecord::Migration
+class AddTokenAndNameToUser < ActiveRecord::Migration[4.2]
   def change
   	add_column :users, :token, :string
     add_column :users, :first_name, :string

@@ -1,12 +1,30 @@
-require 'foursquare2'
+require 'faraday'
+require 'hashie'
+require 'json'
 
+# Replacement for the abandoned `foursquare2` gem (last released 2014, pins
+# faraday 0.x). Talks to the Foursquare v2 REST API directly over faraday and
+# returns Hashie::Mash objects, so every caller below -- and Checkin
+# .create_from_api -- keeps working unchanged.
 module Api
     class Foursquare
+
+        API_ROOT    = 'https://api.foursquare.com'.freeze
+        API_VERSION = '20140614'.freeze
+
+        # Mash that does not log warnings for keys that collide with built-in
+        # method names (checkin JSON contains "id", "type", "count", ...).
+        class Response < ::Hashie::Mash
+            disable_warnings
+        end
+
+        class ApiError < StandardError; end
 
         attr_accessor :client, :all_checkins
 
         def initialize(token, user_id = nil)
-            @client = Foursquare2::Client.new(:oauth_token => token)
+            @token = token
+            @client = build_client
             @all_checkins = user_id ? User.find(user_id).checkins.order("created ASC").to_a : []
             @user_id = user_id
         end
@@ -68,9 +86,35 @@ module Api
 
         private
 
+            def build_client
+                Faraday.new(url: API_ROOT) do |conn|
+                    conn.options.timeout      = 30
+                    conn.options.open_timeout = 10
+                    conn.adapter Faraday.default_adapter
+                end
+            end
+
             def user_checkins(options={})
-                options.merge!(v: 20140614)
-                @client.user_checkins(options).items
+                options.merge!(v: API_VERSION)
+                get('/v2/users/self/checkins', options).dig('response', 'checkins', 'items').to_a.map { |item| Response.new(item) }
+            end
+
+            def get(path, params)
+                response = @client.get(path, params.merge(oauth_token: @token), 'Accept' => 'application/json')
+                body = parse(response)
+
+                unless response.success?
+                    meta = body['meta'] || {}
+                    raise ApiError, "Foursquare API #{response.status}: #{meta['errorType']} #{meta['errorDetail']}".squeeze(' ').strip
+                end
+
+                body
+            end
+
+            def parse(response)
+                JSON.parse(response.body.to_s)
+            rescue JSON::ParserError
+                raise ApiError, "Foursquare API returned a non-JSON response (HTTP #{response.status})"
             end
 
   end

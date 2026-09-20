@@ -10,12 +10,12 @@ class PagesController < ApplicationController
   end
 
   def load_all_checkins
-    FetchJob.new.async.perform(current_user.id, :load_all_checkins!)
+    FetchJob.perform_async(current_user.id, :load_all_checkins!)
     redirect_to root_path
   end
 
   def sync_checkins
-    FetchJob.new.async.perform(current_user.id, :load_any_new_checkins!)
+    FetchJob.perform_async(current_user.id, :load_any_new_checkins!)
     redirect_to root_path
   end
 

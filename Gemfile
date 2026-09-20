@@ -1,43 +1,55 @@
 source 'https://rubygems.org'
-ruby '2.4.6'
+ruby '3.4.7'
 
 # Rails
-gem 'rails', '~> 4.2'
-gem 'sass-rails' # Use SCSS for stylesheets
-gem 'uglifier' # Use Uglifier as compressor for JavaScript assets
-gem 'coffee-rails' # Use CoffeeScript for .js.coffee assets and views
-gem 'jquery-rails' # Use jquery as the JavaScript library
-gem 'jbuilder' # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'bootstrap-sass'
+gem 'rails', '~> 8.0.2'
+gem 'sprockets-rails'          # classic asset pipeline (app uses //= require manifests)
+gem 'sassc-rails'              # compiles the .css.scss stylesheets
+gem 'bootstrap-sass', '~> 3.4' # Bootstrap 3, matches the existing markup
+gem 'jquery-rails'             # jquery + jquery_ujs (powers data-method links)
+gem 'terser'                   # JS compressor for production (replaces uglifier)
+
+# json 3.x removed the `quirks_mode` option that ActiveSupport 8.0 still passes
+# in active_support/json/{encoding,decoding}.rb. execjs and faraday both declare
+# an unbounded `json` dependency, so without this pin Bundler picks json 3 and
+# every JSON column read/write raises "unknown keyword: quirks_mode".
+gem 'json', '~> 2.9'
 
 # Database
-gem 'pg', '~> 0.21.0'
+gem 'pg', '~> 1.5'
 
 # Server
-gem 'unicorn'
+gem 'puma', '~> 6.4'
 
 # Authentication
-gem 'devise'
+gem 'devise', '~> 4.9'
+gem 'omniauth', '~> 2.1'
+gem 'omniauth-oauth2', '~> 1.8'
+gem 'omniauth-rails_csrf_protection', '~> 1.0'
+# NOTE: the omniauth-foursquare gem is abandoned (2014, requires omniauth 1.x).
+# Its strategy now lives in lib/omniauth/strategies/foursquare.rb.
 
 # APIs
-gem 'omniauth-foursquare'
-gem 'foursquare2'
+gem 'faraday', '~> 2.9'
+gem 'hashie', '~> 5.0'
+# NOTE: the foursquare2 gem is abandoned (2014, pins faraday 0.x).
+# lib/foursquare_wrapper/ now calls the v2 API directly over faraday.
 
 # Background Jobs
-gem 'sucker_punch', '~> 1.0'
+gem 'sucker_punch', '~> 3.2'
 
 # Pagination
 gem 'kaminari'
 
-# Dev
-group :test do
-  gem 'minitest'
-	gem 'rspec-rails'
-  gem 'spring-commands-rspec'
-end
+gem 'tzinfo-data', platforms: %i[windows jruby]
+
 group :development, :test do
-	gem 'awesome_print'
-	gem 'better_errors'
-	gem 'pry-rails'
-    gem 'byebug'
+  gem 'rspec-rails', '~> 8.0'
+  gem 'awesome_print'
+  gem 'pry-rails'
+  gem 'debug', platforms: %i[mri windows], require: 'debug/prelude'
+end
+
+group :development do
+  gem 'web-console'
 end

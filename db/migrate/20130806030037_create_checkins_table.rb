@@ -1,4 +1,4 @@
-class CreateCheckinsTable < ActiveRecord::Migration
+class CreateCheckinsTable < ActiveRecord::Migration[4.2]
   def change
     create_table :checkins do |t|
 

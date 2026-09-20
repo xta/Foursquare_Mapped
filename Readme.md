@@ -1,6 +1,8 @@
 # Foursquare Mapped
 
-Rails 4.2 + PostgreSQL sample app for getting all your Foursquare check ins.
+Rails 8 + PostgreSQL sample app for getting all your Foursquare check ins.
+
+Requires Ruby 3.4.7 (see `.ruby-version`) and PostgreSQL.
 
 ***Warning: this app is not secure and NOT for production usage. Use at your own risk.***
 
@@ -30,15 +32,27 @@ You will be presented with your new app's page. Make note of `Client id` and `Cl
     cp config/secrets.yml.example config/secrets.yml
     # update config/secrets.yml file with your foursquare keys (Client id and Client secret)
 
-    rake db:create db:schema:load
-    rake db:schema:load RAILS_ENV=test
+    bin/rails db:create db:schema:load
+    bin/rails db:schema:load RAILS_ENV=test
 
 #### Usage Locally
-    rails s
+    bin/rails s
     open http://localhost:3000/
 
 #### Run all tests
-    rake
+    bundle exec rspec
+
+## Dependencies note
+
+Two upstream gems this app originally used were abandoned in 2014 and cannot be
+installed alongside a current Rails, so their (small) functionality now lives in
+this repo:
+
+* `omniauth-foursquare` -> `lib/omniauth/strategies/foursquare.rb`
+* `foursquare2` -> `lib/foursquare_wrapper/foursquare_wrapper.rb` (calls the
+  Foursquare v2 REST API over faraday)
+
+Behaviour is unchanged; only the plumbing was replaced.
 
 ## License
 
